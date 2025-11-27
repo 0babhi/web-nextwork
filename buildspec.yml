@@ -8,19 +8,10 @@ phases:
   pre_build:
     commands:
       - echo Logging in to AWS CodeArtifact...
-      - CODEARTIFACT_AUTH_TOKEN=$(aws codeartifact get-authorization-token \
-          --domain webapps \
-          --domain-owner 241877115143 \
-          --region ap-south-1 \
-          --query authorizationToken \
-          --output text)
+      # Single-line token fetch (safest)
+      - CODEARTIFACT_AUTH_TOKEN=$(aws codeartifact get-authorization-token --domain webapps --domain-owner 241877115143 --region ap-south-1 --query authorizationToken --output text)
       - export CODEARTIFACT_AUTH_TOKEN
-      - aws codeartifact login \
-          --tool maven \
-          --repository 1Webapp-devops-ci-cd \
-          --domain webapps \
-          --domain-owner 241877115143 \
-          --region ap-south-1
+      - aws codeartifact login --tool maven --repository 1Webapp-devops-ci-cd --domain webapps --domain-owner 241877115143 --region ap-south-1
 
   build:
     commands:
